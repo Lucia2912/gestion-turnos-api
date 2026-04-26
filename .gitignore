@@ -17,3 +17,13 @@ test.db
 # IDEs
 .vscode/
 .idea/
+
+# Alembic
+alembic/versions/__pycache__/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Redis
+dump.rdb

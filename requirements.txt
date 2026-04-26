@@ -12,3 +12,6 @@ pydantic_settings
 pytest
 pytest-asyncio
 httpx
+alembic
+celery
+redis

@@ -44,6 +44,7 @@ DATABASE_URL=postgresql://postgres:postgres@db:5432/turnos_db
 SECRET_KEY=tu_secret_key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=60
+REDIS_URL=redis://redis:6379/0
 ```
 
 3. Levantar los contenedores
@@ -98,10 +99,48 @@ Crear (pending) → Pagar → approved (confirmed) / rejected (pending)
 python -m pytest tests/ -v
 ```
 
-Cobertura actual: **13 tests** cubriendo auth, turnos y pagos.
+Cobertura actual: **14 tests** cubriendo auth, turnos, pagos y validaciones.
+
+| Módulo | Tests |
+|---|---|
+| Auth | register, login, duplicados, credenciales inválidas |
+| Turnos | crear, solapamiento, cancelar, permisos, provider inválido |
+| Pagos | aprobado, rechazado, doble pago, no autorizado |
+
+## Migraciones (Alembic)
+
+Generar una nueva migración:
+```bash
+docker exec -it gestionturnos-api-1 alembic revision --autogenerate -m "descripcion"
+```
+
+Aplicar migraciones:
+```bash
+docker exec -it gestionturnos-api-1 alembic upgrade head
+```
+
+Revertir última migración:
+```bash
+docker exec -it gestionturnos-api-1 alembic downgrade -1
+```
+
+## Notificaciones async (Celery + Redis)
+
+Las notificaciones se procesan de forma asíncrona mediante Celery con Redis como broker.
+
+Eventos que disparan notificaciones:
+- Pago aprobado → email de confirmación al cliente
+- Turno cancelado → email de cancelación al cliente
+
+> **Nota:** actualmente las notificaciones están simuladas con logs.
+> La integración con un servicio real de email (AWS SES o SendGrid) 
+> está planificada para la siguiente etapa.
+
+Ver logs del worker:
+```bash
+docker logs gestionturnos-celery_worker-1
+```
 
 ## Próximamente
-
-- Celery + Redis para notificaciones por email
-- Alembic para migraciones
-- Deploy en AWS
+- AWS SES para emails reales
+- Deploy en AWS (EC2 + RDS + ElastiCache)
