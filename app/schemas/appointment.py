@@ -1,5 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
+from app.models.appointment import AppointmentStatus
 
 class AppointmentCreate(BaseModel):
     provider_id: int
@@ -12,6 +13,6 @@ class AppointmentOut(BaseModel):
     provider_id: int
     start_time: datetime
     end_time: datetime
-    status: str
+    status: AppointmentStatus
 
     model_config = ConfigDict(from_attributes=True)

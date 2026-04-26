@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr, ConfigDict
+from app.models.user import UserRole
 
 class UserCreate(BaseModel):
     email: EmailStr
@@ -10,3 +11,8 @@ class UserOut(BaseModel):
     role: str
 
     model_config = ConfigDict(from_attributes=True)
+
+class UserCreateWithRole(BaseModel):
+    email: EmailStr
+    password: str
+    role: UserRole

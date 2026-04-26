@@ -4,8 +4,11 @@ sqlalchemy
 psycopg2-binary
 python-dotenv
 python-jose[cryptography]
-bcrypt==3.2.2
+bcrypt
 passlib[bcrypt]
 pydantic
 pydantic[email]
 pydantic_settings
+pytest
+pytest-asyncio
+httpx

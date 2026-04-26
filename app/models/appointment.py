@@ -1,5 +1,12 @@
-from sqlalchemy import Column, Integer, DateTime, ForeignKey, String
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, String, Enum
 from app.db.base import Base
+import enum
+
+class AppointmentStatus(str, enum.Enum):
+    pending = "pending"
+    confirmed = "confirmed"
+    completed = "completed"
+    cancelled = "cancelled"
 
 class Appointment(Base):
     __tablename__ = "appointments"
@@ -9,5 +16,5 @@ class Appointment(Base):
     provider_id = Column(Integer, ForeignKey("users.id"))
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=False)
-    status = Column(String, nullable=False, default="scheduled")
+    status = Column(Enum(AppointmentStatus), nullable=False, default=AppointmentStatus.pending)
 
