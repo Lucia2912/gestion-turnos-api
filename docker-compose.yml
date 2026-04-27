@@ -28,7 +28,7 @@ services:
 
   celery_worker:
     build: .
-    command: celery -A app.celery.worker worker --loglevel=info
+    command: celery -A app.celery.worker worker --loglevel=info --uid nobody
     depends_on:
       - redis
       - db

@@ -144,3 +144,8 @@ docker logs gestionturnos-celery_worker-1
 ## Próximamente
 - AWS SES para emails reales
 - Deploy en AWS (EC2 + RDS + ElastiCache)
+
+## AWS
+
+API desplegada en AWS EC2:
+- Swagger UI: http://18.231.183.176:8000/docs
